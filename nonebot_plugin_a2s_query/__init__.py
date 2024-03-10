@@ -2,10 +2,7 @@ import a2s
 import os
 import ujson
 from nonebot.plugin.on import on_command
-from nonebot.adapters.onebot.v11 import(
-Message,
-MessageSegment,
-GroupMessageEvent)
+from nonebot.adapters.onebot.v11 import Message, MessageSegment, GroupMessageEvent
 from nonebot.params import CommandArg
 from nonebot.plugin import require, PluginMetadata
 require("nonebot_plugin_txt2img")

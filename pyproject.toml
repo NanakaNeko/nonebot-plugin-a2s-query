@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-a2s-query"
-version = "0.1.3"
+version = "0.1.5"
 description = "a2s查询游戏服务器详情"
 authors = ["奈 <flneko@163.com>"]
 license = "MIT"
@@ -13,6 +13,7 @@ keywords = ["nonebot2", "plugin", "a2s", "qq", "bot"]
 python = "^3.9"
 nonebot-plugin-txt2img = "^0.4.1"
 nonebot2 = "^2.0.0"
+nonebot-adapter-onebot = "^2.1.5"
 ujson = "^5.9.0"
 python-a2s = "^1.3.0"
 

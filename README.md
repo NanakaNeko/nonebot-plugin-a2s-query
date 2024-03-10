@@ -13,6 +13,13 @@
 ### 安装
 ---
 
++ 使用nb-cli（推荐）
+
+```python
+nb plugin install nonebot-plugin-a2s-query
+```
+
++ 使用pip
 ```python
 pip intall nonebot-plugin-a2s-query
 ```
