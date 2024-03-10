@@ -14,7 +14,7 @@
 ---
 
 ```python
-poetry add nonebot-plugin-a2s-query
+pip intall nonebot-plugin-a2s-query
 ```
 
 ### 命令

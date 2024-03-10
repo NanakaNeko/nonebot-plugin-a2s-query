@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-a2s-query"
-version = "0.1.0"
+version = "0.1.3"
 description = "a2s查询游戏服务器详情"
 authors = ["奈 <flneko@163.com>"]
 license = "MIT"

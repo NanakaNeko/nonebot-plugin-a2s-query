@@ -7,9 +7,19 @@ Message,
 MessageSegment,
 GroupMessageEvent)
 from nonebot.params import CommandArg
-from nonebot import require
+from nonebot.plugin import require, PluginMetadata
 require("nonebot_plugin_txt2img")
 from nonebot_plugin_txt2img import Txt2Img
+
+__plugin_meta__ = PluginMetadata(
+    name="a2s查询",
+    description="查询value服务器详情",
+    usage="查服;加服;删服;订阅服",
+    type="application",
+    homepage="https://github.com/NanakaNeko/nonebot-plugin-a2s-query",
+    supported_adapters={"~onebot.v11"},
+    extra={},
+)
 
 path = os.path.dirname(__file__)
 if not os.path.exists(f"{path}/data"):
