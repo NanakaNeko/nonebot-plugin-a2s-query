@@ -1,5 +1,4 @@
 import a2s
-import os
 import ujson
 from nonebot.plugin.on import on_command
 from nonebot.adapters.onebot.v11 import Message, MessageSegment, GroupMessageEvent
@@ -7,6 +6,9 @@ from nonebot.params import CommandArg
 from nonebot.plugin import require, PluginMetadata
 require("nonebot_plugin_txt2img")
 from nonebot_plugin_txt2img import Txt2Img
+require("nonebot_plugin_localstore")
+import nonebot_plugin_localstore as store
+from pathlib import Path, PurePath
 
 __plugin_meta__ = PluginMetadata(
     name="a2s查询",
@@ -18,11 +20,13 @@ __plugin_meta__ = PluginMetadata(
     extra={},
 )
 
-path = os.path.dirname(__file__)
-if not os.path.exists(f"{path}/data"):
-    os.makedirs(f"{path}/data")
-    with open(os.path.join(path, "data/a2s.json"), "w", encoding="utf-8") as f:
+data_file = store.get_data_file("nonebot-plugin-a2s-query", "a2s.json")
+data_dir = store.get_data_dir("nonebot-plugin-a2s-query")
+if not Path.exists(data_file):
+    with open(PurePath.joinpath(data_dir, "a2s.json"), "w", encoding="utf-8") as f:
       f.write('{}')
+
+
 
 ca2s = on_command("查服", aliases={'connect','查'}, priority=5, block=True)
 wa2s = on_command("加服", aliases={'add'}, priority=5, block=True)
@@ -42,7 +46,7 @@ async def search(event: GroupMessageEvent, msg: Message = CommandArg()):
             ip = host
             port = 27015
     else:
-        content = readInfo("data/a2s.json")
+        content = readInfo(data_file)
         try:
             host = content[group][host]
             if(":" in host):
@@ -105,7 +109,7 @@ async def add(event: GroupMessageEvent, msg: Message = CommandArg()):
         cmd_name = args.split(',')[0].strip()
         cmd_host = args.split(',')[1].strip()
         group = str(event.group_id)
-        content = readInfo("data/a2s.json")
+        content = readInfo(data_file)
         try:
             if content[group]:
               pass
@@ -116,7 +120,7 @@ async def add(event: GroupMessageEvent, msg: Message = CommandArg()):
                 await wa2s.finish(Message(f"{cmd_name}已经添加过了！"), at_sender=True)
         except KeyError:
             content[group][cmd_name] = cmd_host
-            readInfo('data/a2s.json', content)
+            readInfo(data_file, content)
             await wa2s.finish(Message(f"{cmd_name}添加成功！"), at_sender=True)
     else:
         await wa2s.finish(Message("输入有误！"), at_sender=True)
@@ -125,11 +129,11 @@ async def add(event: GroupMessageEvent, msg: Message = CommandArg()):
 async def delete(event: GroupMessageEvent, msg: Message = CommandArg()):
     cmd_name = msg.extract_plain_text().strip()
     group = str(event.group_id)
-    content = readInfo("data/a2s.json")
+    content = readInfo(data_file)
     try:
         if content[group][cmd_name]:
             content[group].pop(cmd_name)
-            readInfo('data/a2s.json', content)
+            readInfo(data_file, content)
             await da2s.finish(Message(f"{cmd_name}成功删除！"), at_sender=True)
     except KeyError:
         await da2s.finish(Message(f"{cmd_name}未添加！"), at_sender=True)
@@ -137,7 +141,7 @@ async def delete(event: GroupMessageEvent, msg: Message = CommandArg()):
 @sa2s.handle()
 async def search_all(event: GroupMessageEvent):
     group = str(event.group_id)
-    content = readInfo("data/a2s.json")
+    content = readInfo(data_file)
     try:
         if content[group]:
           pass
@@ -175,11 +179,9 @@ def readInfo(file, info=None):
     """
     读取文件信息
     """
-    with open(os.path.join(path, file), "r", encoding="utf-8") as f:
-        context = f.read()
-        if info != None:
-            with open(os.path.join(path, file), "w", encoding="utf-8") as f:
-                f.write(ujson.dumps(info, indent=4, ensure_ascii=False))
-            return {"data": ujson.loads(context.strip())}
-        else:
-            return ujson.loads(context.strip())
+    context = file.read_text()
+    if info != None:
+        file.write_text(ujson.dumps(info, indent=4, ensure_ascii=False))
+        return {"data": ujson.loads(context.strip())}
+    else:
+        return ujson.loads(context.strip())
