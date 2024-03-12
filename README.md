@@ -32,24 +32,35 @@
 
 ## 安装
 
-+ 使用nb-cli（推荐）
+<details open>
+<summary>使用 nb-cli 安装（推荐）</summary>
+
 ```bash
 nb plugin install nonebot-plugin-a2s-query
 ```
+</details>
 
-+ 使用pip
+<details>
+<summary>使用 pip 安装</summary>
+
 ```bash
 pip intall nonebot-plugin-a2s-query
 ```
 
-## 命令
+之后打开 nonebot2 项目根目录下的 pyproject.toml 文件, 在 [tool.nonebot] 部分追加写入
+```bash
+plugins = ["nonebot-plugin-a2s-query"]
+```
+</details>
 
-| 命令                   | 权限 | 介绍                                                         | 示例                                                         |
+## 使用
+
+|          命令          | 权限 |                             介绍                             |                             示例                             |
 | :--------------------- | :--- | :----------------------------------------------------------- | :----------------------------------------------------------- |
-| 查服 \| 查 \|  connect | 所有 | 查询服务器ip内详情，不加端口号默认27015                      | 查服 测试 \| connect 192.168.0.1:27015 \| 查 192.168.0.1     |
-| 加服 \| add            | 所有 | 在群里添加一个ip别称，方便查询，需要@机器人(别称和ip中间一定是英文的逗号，中文不会识别) | @bot 加服 测试,192.168.0.1:27015 \| @bot add test,192.168.0.1 |
-| 删服 \| delete         | 所有 | 删除添加的ip别称， 需要@机器人                               | @bot 删服 测试 \| @bot delete test                           |
-| 订阅服 \| list \| 群服 | 所有 | 查询所有别称ip的服务器人数名称                               | 群服 \| list \| 群服                                         |
+| 查服 \| 查 \|  connect | 所有 |           查询服务器ip内详情，不加端口号默认27015            |   查服 测试 \| connect 192.168.0.1:27015 \| 查 192.168.0.1   |
+|      加服 \| add       | 所有 | 在群里添加一个ip别称，方便查询，需要@机器人(别称和ip中间一定是英文的逗号，中文不会识别) | @bot 加服 测试,192.168.0.1:27015 \| @bot add test,192.168.0.1 |
+|     删服 \| delete     | 所有 |                删除添加的ip别称， 需要@机器人                |              @bot 删服 测试 \| @bot delete test              |
+| 订阅服 \| list \| 群服 | 所有 |                查询所有别称ip的服务器人数名称                |                     群服 \| list \| 群服                     |
 
 ## 图片示例
 
