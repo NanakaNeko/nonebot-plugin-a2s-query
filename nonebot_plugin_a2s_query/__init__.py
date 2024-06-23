@@ -9,6 +9,7 @@ from nonebot_plugin_txt2img import Txt2Img
 require("nonebot_plugin_localstore")
 import nonebot_plugin_localstore as store
 from pathlib import Path, PurePath
+from tabulate import tabulate
 
 __plugin_meta__ = PluginMetadata(
     name="a2s查询",
@@ -59,7 +60,7 @@ async def search(event: GroupMessageEvent, msg: Message = CommandArg()):
             await ca2s.finish("未绑定服务器！")
 
     address = (ip, port)
-    hostinfo = f"服IP:{ip}:{port}"
+    hostinfo = f"IP:{ip}:{port}"
     try:
         server_name = a2s.info(address).server_name
         map_name = a2s.info(address).map_name
@@ -77,12 +78,9 @@ async def search(event: GroupMessageEvent, msg: Message = CommandArg()):
             playerinfo = "\n服务器里面是空的哦~\n"
         else:
             listplayers = a2s.players(address)
-            playerinfo = "----------------------------\n|  分数  |    时间    |      玩家      |\n----------------------------\n"
+            serverinfo = []
             for player in listplayers:
-                playername = player.name
-                playerscore = player.score
-                playertime = int(player.duration)
-                m, s = divmod(playertime, 60)
+                m, s = divmod(int(player.duration), 60)
                 h, m = divmod(m, 60)
                 if(h == 0):
                     if(m == 0):
@@ -91,7 +89,8 @@ async def search(event: GroupMessageEvent, msg: Message = CommandArg()):
                         hms = "%dm%ds" % (m, s)
                 else:
                     hms = "%dh%dm%ds" % (h, m, s)
-                playerinfo += f"◆ {playerscore} | {hms} | {playername}\n"
+                serverinfo.append([player.score, hms, player.name])
+                playerinfo = tabulate(serverinfo, headers=['分数', '时间', '玩家'], tablefmt='simple')
         result = f"{title}{playerinfo}\n{hostinfo}"
         txt2img = Txt2Img()
         # 设置字体大小
