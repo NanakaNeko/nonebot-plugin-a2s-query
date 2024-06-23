@@ -10,6 +10,7 @@ require("nonebot_plugin_localstore")
 import nonebot_plugin_localstore as store
 from pathlib import Path, PurePath
 from tabulate import tabulate
+import wcwidth
 
 __plugin_meta__ = PluginMetadata(
     name="a2s查询",
@@ -90,7 +91,7 @@ async def search(event: GroupMessageEvent, msg: Message = CommandArg()):
                 else:
                     hms = "%dh%dm%ds" % (h, m, s)
                 serverinfo.append([player.score, hms, player.name])
-                playerinfo = tabulate(serverinfo, headers=['分数', '时间', '玩家'], tablefmt='simple')
+                playerinfo = tabulate(serverinfo, headers=['分数', '时间', '玩家'], tablefmt='grid', colalign=("left",))
         result = f"{title}{playerinfo}\n{hostinfo}"
         txt2img = Txt2Img()
         # 设置字体大小
