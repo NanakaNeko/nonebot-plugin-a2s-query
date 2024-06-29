@@ -1,8 +1,9 @@
 import a2s
 import ujson
 from nonebot.plugin.on import on_command
-from nonebot.adapters.onebot.v11 import Message, MessageSegment, GroupMessageEvent
+from nonebot.adapters.onebot.v11 import Message, MessageSegment, GroupMessageEvent, GROUP_ADMIN, GROUP_OWNER
 from nonebot.params import CommandArg
+from nonebot.permission import SUPERUSER
 from nonebot.plugin import require, PluginMetadata
 require("nonebot_plugin_txt2img")
 from nonebot_plugin_txt2img import Txt2Img
@@ -31,8 +32,8 @@ if not Path.exists(data_file):
 
 
 ca2s = on_command("查服", aliases={'connect','查'}, priority=5, block=True)
-wa2s = on_command("加服", aliases={'add'}, priority=5, block=True)
-da2s = on_command("删服", aliases={'delete'}, priority=5, block=True)
+wa2s = on_command("加服", aliases={'add'}, permission=SUPERUSER | GROUP_ADMIN | GROUP_OWNER, priority=5, block=True)
+da2s = on_command("删服", aliases={'delete'}, permission=SUPERUSER | GROUP_ADMIN | GROUP_OWNER, priority=5, block=True)
 sa2s = on_command("订阅服", aliases={'list','群服'}, priority=5, block=True)
 
 @ca2s.handle()
