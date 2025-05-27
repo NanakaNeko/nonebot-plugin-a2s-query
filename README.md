@@ -24,6 +24,10 @@
 
 </div>
 
+## 访问统计
+
+## <a href="https://count.getloli.com/"><img src="https://count.getloli.com/@nonebot-plugin-a2s-query?name=nonebot-plugin-a2s-query&theme=moebooru&padding=7&offset=0&align=center&scale=1&pixelated=1&darkmode=auto"></a>
+
 ## 介绍
 
 + 基于value的a2s协议，可查询求生之路、半条命、军团要塞、Counter-Strike: Global Offensive、Counter-Strike 1.6、ARK: Survival Evolved、Rust等游戏  
